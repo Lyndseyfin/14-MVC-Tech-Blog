@@ -1,97 +1,127 @@
-const router = require('express').Router();
-// const { Association } = require('sequelize/types');
-const { Tag, Product, ProductTag, Category } = require('../../models');
-const { associations } = require('../../models/Product');
+const router = require("express").Router();
+const { Post, Comment, User } = require("../models");
+const withAuth = require("../utils/auth");
 
-// The `/api/tags` endpoint
-
-router.get('/', async (req, res) => {
-  // find all tags
-  // be sure to include its associated Product data
+router.get("/", async (req, res) => {
+  // retrieving all posts/ JOIN user data
   try {
-    const tagData = await Tag.findAll({
-      include: [{ model: Product }],
-    });
-    res.status(200).json(tagData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
-router.get('/:id', async (req, res) => {
-  // find a single tag by its `id`
-  // be sure to include its associated Product data
-  try {
-    const tagData = await Tag.findByPk(req.params.id, {
-      // JOIN with category
-      include: [{ model: Product}, {model: Category}],
+    const postData = await Post.findAll({
+      include: [{ model: User }],
+      attributes: ["username"],
     });
 
-    if (!tagData) { 
-      res.status(404).json({ message: 'No products found with that ID.' });
-      return;
-    }
+    // Serialize data so the template can read it
+    const posts = postData.map((post) => post.get({ plain: true }));
+    // console.log(posts);
 
-    res.status(200).json(tagData);
+    // Pass serialized data and logged in flag into template
+    res.render("homepage", {
+      posts,
+      logged_in: req.session.logged_in,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
-
 });
 
-router.post('/', async (req, res) => {
-  // create a new tag
+router.get("/", withAuth, async (req, res) => {
   try {
-    const newTag= await Tag.create(req.body);
-    res.status(200).json(newTag);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-
-});
-
-router.put('/:id', async (req, res) => {
-  // update a tag's name by its `id` value
-  try {
-    const tagData = await Tag.update(
-      {
-        category_name: req.body.tag_name,
-      },
-      {
-        returning: true,
-        where: {
-          id: req.params.id,
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+        {
+          model: User,
+          attributes: ["username"],
         },
-      }
-    );
-    if (!tagData) {
-      res.status(404).json({ message: "No tag ID found- tag not updated."});
-      return;
-    }
-    res.status(200).json(tagData);
+        {
+          model: Comment,
+          attributes: [
+            "description",
+            "date_created",
+            "user_id",
+            // [sequelize.literal(`(SELECT user.name FROM user WHERE user.id = comment.user_id)`), 'username']
+          ],
+        },
+      ],
+    });
+
+    const post = postData.get({ plain: true });
+    console.log(post);
+
+    res.render("post", {
+      ...post,
+      logged_in: req.session.logged_in,
+    });
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-router.delete('/:id', async (req, res) => {
-  // delete on tag by its `id` value
-  try {
-    const tagData = await Tag.destroy({
-      where: {
-        id: req.params.id
-      }
-    });
-
-    if (!tagData) {
-      res.status(404).json({ message: 'No tags found with this ID.' });
-      return;
-    }
-    res.status(200).json(tagData);
-  } catch (err) {
-    res.status(500).json(err)
+// login
+router.get("/login", (req, res) => {
+  // If a session exists, redirect the request to the homepage
+  if (req.session.logged_in) {
+    res.redirect("/");
+    return;
   }
 
+  res.render("login");
+});
+
+//signup
+router.get("/signup", (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect("/");
+    return;
+  }
+
+  res.render("signup");
+});
+
+router.get("/dashboard", withAuth, async (req, res) => {
+  try {
+    // Get all posts and JOIN with user data
+    const postData = await Post.findAll({
+      include: [
+        {
+          model: User,
+          attributes: ["username"],
+        },
+      ],
+      where: {
+        user_id: req.session.user_id,
+      },
+    });
+
+    // Serialize data so the template can read it
+    const posts = postData.map((post) => post.get({ plain: true }));
+    console.log(posts);
+
+    // Pass serialized data and session flag into template
+    res.render("dashboard", {
+      posts,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get("/newpost", (req, res) => {
+  if (!req.session.logged_in) {
+    res.redirect("/login");
+    return;
+  }
+
+  res.render("newpost");
+});
+
+router.get("/updatePost", (req, res) => {
+  if (!req.session.logged_in) {
+    res.redirect("/login");
+    return;
+  }
+
+  res.render("updatePost");
 });
 
 module.exports = router;
