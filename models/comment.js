@@ -1,9 +1,9 @@
-const { UUIDV4, Model, DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class LibraryCard extends Model {}
+class Food extends Model {}
 
-LibraryCard.init(
+Food.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,14 +11,18 @@ LibraryCard.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    card_number: {
-      type: DataTypes.UUID,
-      defaultValue: UUIDV4,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    reader_id: {
+    cost: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    user_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'reader',
+        model: 'user',
         key: 'id',
       },
     },
@@ -28,8 +32,10 @@ LibraryCard.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'library_card',
+    modelName: 'food',
   }
 );
 
-module.exports = LibraryCard;
+module.exports = Comment;
+
+

@@ -1,0 +1,18 @@
+[
+    {
+      "name": "Levi",
+      "email": "levi@fakemail.com",
+      "password": "password12345"
+    },
+    {
+      "name": "Jeremy",
+      "email": "jeremy@fakemail.com",
+      "password": "password12345"
+    },
+    {
+      "name": "Theo",
+      "email": "theo@fakemail.com",
+      "password": "password12345"
+    }
+  ]
+  
