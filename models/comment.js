@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../config/connection');
 
-class Food extends Model {}
+class Comment extends Model {}
 
-Food.init(
+Comment.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -11,30 +11,38 @@ Food.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    title: {
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    cost: {
+    date_created: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
-    user_id: {
+    post_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'user',
+        model: 'psot',
         key: 'id',
       },
     },
+ user_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'user',
+      key: 'id',
+    },
   },
+},
   {
     sequelize,
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'food',
+    modelName: 'comment',
   }
 );
+
 
 module.exports = Comment;
 
