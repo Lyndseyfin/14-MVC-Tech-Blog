@@ -1,10 +1,10 @@
 const { Model, DataTypes } = require('sequelize');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const sequelize = require('../config/connection');
 
-class Reader extends Model {}
+class User extends Model {}
 
-Reader.init(
+User.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -34,22 +34,22 @@ Reader.init(
   },
   {
     hooks: {
-      beforeCreate: async (newReader) => {
+      beforeCreate: async (newUser) => {
         try {
-          newReader.password = await bcrypt.hash(newReader.password, 10);
-          return newReader;
+          newUser.password = await bcrypt.hash(newUser.password, 10);
+          return newUser;
         } catch (err) {
           console.log(err);
           return err;
         }
       },
-      beforeUpdate: async (updatedReader) => {
+      beforeUpdate: async (updatedUser) => {
         try {
-          updatedReader.password = await bcrypt.hash(
-            updatedReader.password,
+          updatedUser.password = await bcrypt.hash(
+            updatedUser.password,
             10
           );
-          return updatedReader;
+          return updatedUser;
         } catch (err) {
           console.log(err);
           return err;
@@ -60,8 +60,8 @@ Reader.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'reader',
+    modelName: 'User',
   }
 );
 
-module.exports = Reader;
+module.exports = User;
