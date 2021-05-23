@@ -48,12 +48,12 @@ router.get("/:id", withAuth, async (req, res) => {
 router.get("/login", (req, res) => {
   // If a session exists, redirect the request to the homepage
   if (req.session.logged_in) {
-    // res.redirect("/");
-    // return;
+    res.redirect("/");
+    return;
   }
-  else{
+  // else{
  res.render("login");
-  }
+  
 });
 
 //signup
