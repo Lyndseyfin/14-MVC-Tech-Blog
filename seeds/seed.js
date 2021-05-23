@@ -9,10 +9,7 @@ const seedDatabase = async () => {
   await sequelize.sync({ force: true });
 
 
-  const seedDatabase = async () => {
-    await sequelize.sync({
-      force: true
-    });
+
   
     const users = await User.bulkCreate(userData, {
       individualHooks: true,
@@ -20,9 +17,9 @@ const seedDatabase = async () => {
     });
   
     for (const post of postData) {
-      await post.create({
+      await Post.create({
         ...post,
-        user_id: users[Math.floor(Math.random() * users.length)].id,
+       // user_id: users[Math.floor(Math.random() * users.length)].id,
       });
     }
   
@@ -32,7 +29,7 @@ const seedDatabase = async () => {
     });
   
     process.exit(0);
-  };
+
 }
   
   seedDatabase();

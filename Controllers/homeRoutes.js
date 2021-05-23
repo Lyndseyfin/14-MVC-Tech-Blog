@@ -6,8 +6,8 @@ router.get("/", async (req, res) => {
   // retrieving all posts
   try {
     const postData = await Post.findAll({
-      include: [{ model: User }],
-      attributes: ["username"],
+      include: [{ model: User, attributes: ["email"]},],
+      
     });
 
     // Serialize data so the template can read it
@@ -24,23 +24,11 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/", withAuth, async (req, res) => {
+//get request for single post
+router.get("/:id", withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [
-        {
-          model: User,
-          attributes: ["username"],
-        },
-        {
-          model: Comment,
-          attributes: [
-            "description",
-            "date_created",
-            "user_id",
-            // [sequelize.literal(`(SELECT user.name FROM user WHERE user.id = comment.user_id)`), 'username']
-          ],
-        },
       ],
     });
 
@@ -60,11 +48,12 @@ router.get("/", withAuth, async (req, res) => {
 router.get("/login", (req, res) => {
   // If a session exists, redirect the request to the homepage
   if (req.session.logged_in) {
-    res.redirect("/");
-    return;
+    // res.redirect("/");
+    // return;
   }
-
-  res.render("login");
+  else{
+ res.render("login");
+  }
 });
 
 //signup
@@ -84,7 +73,7 @@ router.get("/dashboard", withAuth, async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ["username"],
+          attributes: ["email"],
         },
       ],
       where: {
