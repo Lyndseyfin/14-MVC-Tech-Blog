@@ -47,10 +47,11 @@ router.get("/:id", withAuth, async (req, res) => {
 // login
 router.get("/login", (req, res) => {
   // If a session exists, redirect the request to the homepage
-  if (req.session.logged_in) {
-    res.redirect("/");
+  if (req.session.logged_in) {  res.redirect("/");
     return;
   }
+  
+  console.log("redirecting from login route")
   // else{
  res.render("login");
   
