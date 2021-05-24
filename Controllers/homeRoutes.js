@@ -24,26 +24,6 @@ router.get("/", async (req, res) => {
   }
 });
 
-//get request for single post
-router.get("/:id", withAuth, async (req, res) => {
-  try {
-    const postData = await Post.findByPk(req.params.id, {
-      include: [
-      ],
-    });
-
-    const post = postData.get({ plain: true });
-    console.log(post);
-
-    res.render("post", {
-      ...post,
-      logged_in: req.session.logged_in,
-    });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
 // login
 router.get("/login", (req, res) => {
   // If a session exists, redirect the request to the homepage
@@ -113,5 +93,26 @@ router.get("/updatePost", (req, res) => {
 
   res.render("updatePost");
 });
+
+//get request for single post
+router.get("/:id", withAuth, async (req, res) => {
+  try {
+    const postData = await Post.findByPk(req.params.id, {
+      include: [
+      ],
+    });
+
+    const post = postData.get({ plain: true });
+    console.log(post);
+
+    res.render("post", {
+      ...post,
+      logged_in: req.session.logged_in,
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 
 module.exports = router;
