@@ -11,7 +11,7 @@ I built a CMS-style blog site similar to a Wordpress site, where developers can 
 4. [Contributing](#contribution)
 5. [Questions](#questions)
 6. [License](#license)
-7. [Demo](#Demo)
+7. [Heroku](#Heroku)
 8. [Screenshot](#screenshot)
 # Installation 
 I used 'npm i' to insall all required pacakages.
