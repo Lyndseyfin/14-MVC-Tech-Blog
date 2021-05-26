@@ -4,7 +4,8 @@
   "description": "1. [Title](Title)\r 2. [Description](#description)\r 3. [Installation](#installation)\r 4. [Contributing](#contribution)\r 5. [Questions](#questions)\r 6. [License](#license)\r 7. [Demo](#Demo)\r 8. [Screenshot](#screenshot)\r # Installation \r I used 'npm i' to insall all required pacakages.\r # Contribution\r Myself\r # Questions\r ## GitHub \r  Lyndseyfin\r ## Email \r  lyndseyfinamore@gmail.com\r ## License\r ![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen)\r ## Demo\r <a href=\"\">MVC Tech Blog </a>",
   "main": "server.js",
   "engines": {
-    "node": "15.13.0"
+    "node": "15.13.0",
+    "npm": "7.7.6"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
