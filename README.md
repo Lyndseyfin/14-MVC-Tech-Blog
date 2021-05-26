@@ -24,8 +24,7 @@ Myself
  lyndseyfinamore@gmail.com
 ## License
 ![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen)
-## Demo
-<a href="">MVC Tech Blog </a>
-
+## Heroku
+<a href="https://immense-castle-80286.herokuapp.com/">Finn's Tech Blog</a>
 ## Screenshot
-![screenshot]()
+![screenshot](images/ftb.png)
