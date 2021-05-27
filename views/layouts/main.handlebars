@@ -14,10 +14,12 @@
       <nav class="nav">
         <a href="/">Home</a>
         <!-- Conditionally render login or logout links -->
-        {{#if loggedIn}}
-          <button id="logout" class="button" style="background-color: orange; color: white;">Logout</button>
+        {{#if logged_in}}
+        <a href="/dashboard">Dashboard</a>
+
+          <button id="logout" class="button">Logout</button>
           {{else}}
-          <a href="/login" class="button" style="background-color: royalblue; color: white;">Login</a>
+          <a href="/login" class="button">Login</a>
           {{/if}}
       </nav>
     </header>
