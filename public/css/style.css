@@ -16,14 +16,4 @@ header, .project:not(:last-child) {
   font-size: 100%;
 }
 
-.no-button:hover {
-  color: #065b83;
-  text-decoration: underline;
-}
-
-.dollar-amount {
-  color: #056605;
-  font-weight: bold;
-  margin-left: -5px;
-}
 
