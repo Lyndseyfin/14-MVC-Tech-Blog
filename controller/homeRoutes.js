@@ -6,7 +6,7 @@ router.get("/", async (req, res) => {
   // retrieving all posts
   try {
     const postData = await Post.findAll({
-      include: [{ model: User, attributes: ["username"]},],
+      include: [{ model: User, attributes: ["email"]},],
       
     });
 
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
     res.render("homepage", {
       posts,
       logged_in: req.session.logged_in,
-      // userName: req.session.userName,
+       username: req.session.name,
     });
   } catch (err) {
     res.status(500).json(err);
@@ -83,7 +83,9 @@ router.get("/newpost", (req, res) => {
     return;
   }
 
-  res.render("newpost");
+  res.render("newpost", {
+    logged_in: req.session.logged_in
+  })
 });
 
 router.get("/updatePost", (req, res) => {
@@ -96,7 +98,7 @@ router.get("/updatePost", (req, res) => {
 });
 
 //get request for single post
-router.get("/:id", withAuth, async (req, res) => {
+router.get("/post/:id", withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [
