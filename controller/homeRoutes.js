@@ -2,7 +2,7 @@ const router = require("express").Router();
 const { Post, Comment, User } = require("../models");
 const withAuth = require("../utils/auth");
 
-router.get("/", async (req, res) => {
+router.get('/', async (req, res) => {
   // retrieving all posts
   try {
     const postData = await Post.findAll({
@@ -26,7 +26,7 @@ router.get("/", async (req, res) => {
 });
 
 // login
-router.get("/login", (req, res) => {
+router.get('/login', (req, res) => {
   // If a session exists, redirect the request to the homepage
   if (req.session.logged_in) {  res.redirect("/");
     return;
@@ -34,21 +34,21 @@ router.get("/login", (req, res) => {
   
   console.log("redirecting from login route")
   // else{
- res.render("login");
+ res.render('login');
   
 });
 
 //signup
-router.get("/signup", (req, res) => {
+router.get('/signup', (req, res) => {
   if (req.session.logged_in) {
     res.redirect("/");
     return;
   }
 
-  res.render("signup");
+  res.render('signup');
 });
 
-router.get("/dashboard", withAuth, async (req, res) => {
+router.get('/dashboard', withAuth, async (req, res) => {
   try {
     // Get all posts and JOIN with user data
     const postData = await Post.findAll({
@@ -77,28 +77,28 @@ router.get("/dashboard", withAuth, async (req, res) => {
   }
 });
 
-router.get("/newpost", (req, res) => {
+router.get('/newpost', (req, res) => {
   if (!req.session.logged_in) {
     res.redirect("/login");
     return;
   }
 
-  res.render("newpost", {
+  res.render('newpost', {
     logged_in: req.session.logged_in
   })
 });
 
-router.get("/updatePost", (req, res) => {
+router.get('/updatePost', (req, res) => {
   if (!req.session.logged_in) {
-    res.redirect("/login");
+    res.redirect('/login');
     return;
   }
 
-  res.render("updatePost");
+  res.render('updatePost');
 });
 
 //get request for single post
-router.get("/post/:id", withAuth, async (req, res) => {
+router.get('/post/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
       include: [
@@ -108,7 +108,7 @@ router.get("/post/:id", withAuth, async (req, res) => {
     const post = postData.get({ plain: true });
     console.log(post);
 
-    res.render("post", {
+    res.render('post', {
       ...post,
       logged_in: req.session.logged_in,
     });

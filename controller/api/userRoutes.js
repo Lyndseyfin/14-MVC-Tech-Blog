@@ -1,6 +1,9 @@
 const router = require("express").Router();
-const { Cookie } = require("express-session");
+// const { Cookie } = require("express-session");
 const { User } = require("../../models");
+const withAuth = require('../../utils/auth');
+
+
 
 router.post('/', async (req, res) => {
   try {
@@ -19,7 +22,7 @@ router.post('/', async (req, res) => {
 });
 
 
-router.post("/login", async (req, res) => {
+router.post('/login', async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
     if (!userData) {
@@ -51,7 +54,7 @@ router.post("/login", async (req, res) => {
 });
 
 
-router.post('/logout', (req, res) => {
+router.post('/logout', withAuth, (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
       res.status(204).end();
@@ -61,45 +64,27 @@ router.post('/logout', (req, res) => {
   }
 });
 
-router.post('/signup', (req, res) => {
+// router.post('/signup', (req, res) => {
 
-  User.create({
-      name: req.body.username,
-      password: req.body.password
-  })
+//   User.create({
+//       name: req.body.username,
+//       password: req.body.password
+//   })
 
-  .then(userData => {
-          req.session.save(() => {
-              req.session.user_id = userData.id;
-              req.session.username = userData.name;
-              req.session.loggedIn = true;
+//   .then(userData => {
+//           req.session.save(() => {
+//               req.session.user_id = userData.id;
+//               req.session.username = userData.name;
+//               req.session.loggedIn = true;
 
-              res.json(userData);
-          });
-      })
-      .catch(err => {
-          console.log(err);
-          res.status(500).json(err);
-      });
-});
+//               res.json(userData);
+//           });
+//       })
+//       .catch(err => {
+//           console.log(err);
+//           res.status(500).json(err);
+//       });
+// });
 
-router.delete("/:id", async (req, res) => {
-  // delete one product by its `id` value
-  try {
-    const productData = await Product.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
-
-    if (!productData) {
-      res.status(404).json({ message: "No posts found with this ID." });
-      return;
-    }
-    res.status(200).json(productData);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
 
 module.exports = router;

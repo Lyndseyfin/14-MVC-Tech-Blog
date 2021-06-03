@@ -1,27 +1,28 @@
-const editPostFormHandler = async (event) => {
-    console.log("I am supposed to update a fucking post.")
+async function editFormHandler(event) {
     event.preventDefault();
-    const url = window.location.pathname;
-    const id = url.substring(url.lastIndexOf('/') + 1)
-  
-    const title = document.querySelector('#title').value.trim();
-    const description = document.querySelector('#description').value.trim();
-    const post_id = id;
+
+    const title = document.querySelector('input[name="post-title"]').value;
+    const post_content = document.querySelector('input[name="post-content"]').value;
+    const id = window.location.toString().split('/')[
+        window.location.toString().split('/').length - 1
+    ];
 
     const response = await fetch(`/api/posts/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ title, description }),
-        headers: { 'Content-Type': 'application/json' },
-        });
+        body: JSON.stringify({
+            title,
+            post_content
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
 
     if (response.ok) {
-        // document.location.replace('homepage');
-        document.location.replace('/');
-        } else {
-            alert(response.statusText);
-            };
-};
+        document.location.replace('/dashboard/');
+    } else {
+        alert(response.statusText);
+    }
+}
 
-document
-.querySelector('#edit-post-form')
-.addEventListener('submit', editPostFormHandler);
+document.querySelector('.edit-post-form').addEventListener('submit', editFormHandler);
