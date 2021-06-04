@@ -16,7 +16,7 @@
     {{/if}}
     {{#if logged_in}}
     <div>
-        <form class="form" id="new-comment-form">
+        <form class="form" id="new-comment-form" data-postid={{id}}>
             <div class="form-group">
                 <label for="comment" class="fw-bold">Add New Comment</label>
                 <input class="form-input" type="text" id="comment" name="comment"/>
@@ -34,14 +34,14 @@
     <h2 class="py-4">Comments</h2>
         <!-- Loop over each object in the projects array -->
         {{!-- {{#each comments as |comment| }} --}}
-    {{#each comments}}
+    {{#each comments as |comment|}}
     <div class="row mb-1 project">
         <div class="col-md-9 border border-dark rounded my-3">
             <p>
             {{!-- <a href="/post/{{post.id}}">{{comment.comment_text}}</a> --}}
-            {{comment_text}}
+            {{comment.description}}
             </p>
-            <p>Created by {{user.name}} on {{format_date date_created}}</p>
+            <p>Created by {{comment.user.name}} on {{format_date comment.createdAt}}</p>
             {{!-- <p>Created by {{post.user.name}} on {{format_date post.date_created}}</p> --}}
         </div>
         {{!-- <div class="col-md-7">
@@ -54,6 +54,9 @@
 </div>
 
 <script src="../js/post.js"></script>
+<script src="../js/comment.js"></script>
+
+
 
 
 
