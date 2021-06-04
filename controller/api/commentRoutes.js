@@ -11,18 +11,18 @@ router.get('/', (req, res) => {
       })
 });
 
-// router.get('/:id', (req, res) => {
-//   Comment.findAll({
-//           where: {
-//               id: req.params.id
-//           }
-//       })
-//       .then(commentData => res.json(commentData))
-//       .catch(err => {
-//           console.log(err);
-//           res.status(500).json(err);
-//       })
-// });
+router.get('/:id', (req, res) => {
+  Comment.findAll({
+          where: {
+              id: req.params.id
+          }
+      })
+      .then(commentData => res.json(commentData))
+      .catch(err => {
+          console.log(err);
+          res.status(500).json(err);
+      })
+});
 
 // router.put('/:id', withAuth, (req, res) => {
 //   Comment.update({
@@ -57,6 +57,7 @@ router.post('/:id', withAuth, (req, res) => {
           })
   }
 });
+
 
 router.delete('/:id', withAuth, async (req, res) => {
   try {
