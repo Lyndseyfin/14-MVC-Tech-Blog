@@ -178,6 +178,7 @@ footer {
 .form-input,
 .form-textarea {
   display: block;
+  justify-content: space-evenly;
 }
 .form-label {
   font-size: 1.1rem;
@@ -199,6 +200,12 @@ footer {
 }
 .text-uppercase {
   text-transform: uppercase;
+}
+fieldset {
+  border: 5px solid black;
+  width: 40%;
+  background: white;
+  padding: 25px;
 }
 .flex-row {
   display: flex;
