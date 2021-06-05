@@ -25,6 +25,6 @@ Myself
 ## License
 ![GitHub license](https://img.shields.io/badge/license-MIT-brightgreen)
 ## Heroku
-<a href="https://immense-castle-80286.herokuapp.com/">Finn's Tech Blog</a>
+<a href="https://immense-castle-80286.herokuapp.com/">Tech Blog</a>
 ## Screenshot
-![screenshot](images/ftb.png)
+![screenshot](images/tb.png))
